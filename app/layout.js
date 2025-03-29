@@ -8,6 +8,8 @@ const inter = Inter({ subsets: ['latin']})
 export const metadata = {
   title: "Vehiql",
   description: "Find your dream Vehicle",
+  // keywords:['next.js','cars','seo'],
+  // author: "HangCoder",
 };
 
 export default function RootLayout({ children }) {
