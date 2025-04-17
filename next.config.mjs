@@ -1,5 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    experimental: {
+        serverComponentsHmrCache: false, // Defaults to true
+    },
+
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'twvzvlrfjlaozeiofltx.supabase.co'
+            }
+        ]
+    },
+    
     async headers() {
         return [
             {source: '/embed',
