@@ -1,4 +1,7 @@
+// "use client";
+
 import React from "react";
+import SettingsForm from "./_conponents/settings-form";
 
 export const metadata = {
   title: "Settings | Vehiql Admin",
@@ -9,6 +12,7 @@ const SettingsPage = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">SettingsPage</h1>
+      <SettingsForm />
     </div>
   );
 };

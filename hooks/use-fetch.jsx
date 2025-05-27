@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -15,7 +17,6 @@ const useFetch = (cb) => {
       setData(response);
       setError(null);
     } catch (error) {
-        console.log('cb error')
       setError(error);
       toast.error(error.message);
     } finally {
