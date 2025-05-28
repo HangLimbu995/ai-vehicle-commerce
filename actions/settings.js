@@ -24,7 +24,6 @@ export async function getDealershipInfo() {
 
     // If no dealership exists, create a default one
     if (!dealership) {
-      console.log('creating dealership')
       dealership = await db.dealershipInfo.create({
         data: {
           // Default values will be used from schema
@@ -83,7 +82,8 @@ export async function getDealershipInfo() {
           },
         },
       });
-    }
+
+    } 
 
     // Format the data
     return {

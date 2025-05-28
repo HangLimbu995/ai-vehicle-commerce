@@ -65,9 +65,9 @@ export const CarStatus: {
 export type CarStatus = (typeof CarStatus)[keyof typeof CarStatus]
 
 
-export const dayOfWeek: {
+export const DayOfWeek: {
   MONDAY: 'MONDAY',
-  TUDESDAY: 'TUDESDAY',
+  TUESDAY: 'TUESDAY',
   WEDNESDAY: 'WEDNESDAY',
   THURSDAY: 'THURSDAY',
   FRIDAY: 'FRIDAY',
@@ -75,7 +75,7 @@ export const dayOfWeek: {
   SUNDAY: 'SUNDAY'
 };
 
-export type dayOfWeek = (typeof dayOfWeek)[keyof typeof dayOfWeek]
+export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
 
 
 export const BookingStatus: {
@@ -98,9 +98,9 @@ export type CarStatus = $Enums.CarStatus
 
 export const CarStatus: typeof $Enums.CarStatus
 
-export type dayOfWeek = $Enums.dayOfWeek
+export type DayOfWeek = $Enums.DayOfWeek
 
-export const dayOfWeek: typeof $Enums.dayOfWeek
+export const DayOfWeek: typeof $Enums.DayOfWeek
 
 export type BookingStatus = $Enums.BookingStatus
 
@@ -348,8 +348,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.6.0
-   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
+   * Prisma Client JS version: 6.8.2
+   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
    */
   export type PrismaVersion = {
     client: string
@@ -5051,7 +5051,7 @@ export namespace Prisma {
   export type WorkingHourMinAggregateOutputType = {
     id: string | null
     dealershipId: string | null
-    dayOfWeek: $Enums.dayOfWeek | null
+    dayOfWeek: $Enums.DayOfWeek | null
     openTime: string | null
     closeTime: string | null
     isOpen: boolean | null
@@ -5062,7 +5062,7 @@ export namespace Prisma {
   export type WorkingHourMaxAggregateOutputType = {
     id: string | null
     dealershipId: string | null
-    dayOfWeek: $Enums.dayOfWeek | null
+    dayOfWeek: $Enums.DayOfWeek | null
     openTime: string | null
     closeTime: string | null
     isOpen: boolean | null
@@ -5192,7 +5192,7 @@ export namespace Prisma {
   export type WorkingHourGroupByOutputType = {
     id: string
     dealershipId: string
-    dayOfWeek: $Enums.dayOfWeek
+    dayOfWeek: $Enums.DayOfWeek
     openTime: string
     closeTime: string
     isOpen: boolean
@@ -5283,7 +5283,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       dealershipId: string
-      dayOfWeek: $Enums.dayOfWeek
+      dayOfWeek: $Enums.DayOfWeek
       openTime: string
       closeTime: string
       isOpen: boolean
@@ -5715,7 +5715,7 @@ export namespace Prisma {
   interface WorkingHourFieldRefs {
     readonly id: FieldRef<"WorkingHour", 'String'>
     readonly dealershipId: FieldRef<"WorkingHour", 'String'>
-    readonly dayOfWeek: FieldRef<"WorkingHour", 'dayOfWeek'>
+    readonly dayOfWeek: FieldRef<"WorkingHour", 'DayOfWeek'>
     readonly openTime: FieldRef<"WorkingHour", 'String'>
     readonly closeTime: FieldRef<"WorkingHour", 'String'>
     readonly isOpen: FieldRef<"WorkingHour", 'Boolean'>
@@ -8545,16 +8545,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'dayOfWeek'
+   * Reference to a field of type 'DayOfWeek'
    */
-  export type EnumdayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'dayOfWeek'>
+  export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
     
 
 
   /**
-   * Reference to a field of type 'dayOfWeek[]'
+   * Reference to a field of type 'DayOfWeek[]'
    */
-  export type ListEnumdayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'dayOfWeek[]'>
+  export type ListEnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek[]'>
     
 
 
@@ -8858,7 +8858,7 @@ export namespace Prisma {
     NOT?: WorkingHourWhereInput | WorkingHourWhereInput[]
     id?: StringFilter<"WorkingHour"> | string
     dealershipId?: StringFilter<"WorkingHour"> | string
-    dayOfWeek?: EnumdayOfWeekFilter<"WorkingHour"> | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFilter<"WorkingHour"> | $Enums.DayOfWeek
     openTime?: StringFilter<"WorkingHour"> | string
     closeTime?: StringFilter<"WorkingHour"> | string
     isOpen?: BoolFilter<"WorkingHour"> | boolean
@@ -8886,7 +8886,7 @@ export namespace Prisma {
     OR?: WorkingHourWhereInput[]
     NOT?: WorkingHourWhereInput | WorkingHourWhereInput[]
     dealershipId?: StringFilter<"WorkingHour"> | string
-    dayOfWeek?: EnumdayOfWeekFilter<"WorkingHour"> | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFilter<"WorkingHour"> | $Enums.DayOfWeek
     openTime?: StringFilter<"WorkingHour"> | string
     closeTime?: StringFilter<"WorkingHour"> | string
     isOpen?: BoolFilter<"WorkingHour"> | boolean
@@ -8915,7 +8915,7 @@ export namespace Prisma {
     NOT?: WorkingHourScalarWhereWithAggregatesInput | WorkingHourScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"WorkingHour"> | string
     dealershipId?: StringWithAggregatesFilter<"WorkingHour"> | string
-    dayOfWeek?: EnumdayOfWeekWithAggregatesFilter<"WorkingHour"> | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekWithAggregatesFilter<"WorkingHour"> | $Enums.DayOfWeek
     openTime?: StringWithAggregatesFilter<"WorkingHour"> | string
     closeTime?: StringWithAggregatesFilter<"WorkingHour"> | string
     isOpen?: BoolWithAggregatesFilter<"WorkingHour"> | boolean
@@ -9376,7 +9376,7 @@ export namespace Prisma {
 
   export type WorkingHourCreateInput = {
     id?: string
-    dayOfWeek: $Enums.dayOfWeek
+    dayOfWeek: $Enums.DayOfWeek
     openTime: string
     closeTime: string
     isOpen?: boolean
@@ -9388,7 +9388,7 @@ export namespace Prisma {
   export type WorkingHourUncheckedCreateInput = {
     id?: string
     dealershipId: string
-    dayOfWeek: $Enums.dayOfWeek
+    dayOfWeek: $Enums.DayOfWeek
     openTime: string
     closeTime: string
     isOpen?: boolean
@@ -9398,7 +9398,7 @@ export namespace Prisma {
 
   export type WorkingHourUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: EnumdayOfWeekFieldUpdateOperationsInput | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
     openTime?: StringFieldUpdateOperationsInput | string
     closeTime?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -9410,7 +9410,7 @@ export namespace Prisma {
   export type WorkingHourUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealershipId?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: EnumdayOfWeekFieldUpdateOperationsInput | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
     openTime?: StringFieldUpdateOperationsInput | string
     closeTime?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -9421,7 +9421,7 @@ export namespace Prisma {
   export type WorkingHourCreateManyInput = {
     id?: string
     dealershipId: string
-    dayOfWeek: $Enums.dayOfWeek
+    dayOfWeek: $Enums.DayOfWeek
     openTime: string
     closeTime: string
     isOpen?: boolean
@@ -9431,7 +9431,7 @@ export namespace Prisma {
 
   export type WorkingHourUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: EnumdayOfWeekFieldUpdateOperationsInput | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
     openTime?: StringFieldUpdateOperationsInput | string
     closeTime?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -9442,7 +9442,7 @@ export namespace Prisma {
   export type WorkingHourUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealershipId?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: EnumdayOfWeekFieldUpdateOperationsInput | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
     openTime?: StringFieldUpdateOperationsInput | string
     closeTime?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -9986,11 +9986,11 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type EnumdayOfWeekFilter<$PrismaModel = never> = {
-    equals?: $Enums.dayOfWeek | EnumdayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.dayOfWeek[] | ListEnumdayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.dayOfWeek[] | ListEnumdayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumdayOfWeekFilter<$PrismaModel> | $Enums.dayOfWeek
+  export type EnumDayOfWeekFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
   }
 
   export type DealershipInfoScalarRelationFilter = {
@@ -10000,7 +10000,7 @@ export namespace Prisma {
 
   export type WorkingHourDealershipIdDayOfWeekCompoundUniqueInput = {
     dealershipId: string
-    dayOfWeek: $Enums.dayOfWeek
+    dayOfWeek: $Enums.DayOfWeek
   }
 
   export type WorkingHourCountOrderByAggregateInput = {
@@ -10036,14 +10036,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type EnumdayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.dayOfWeek | EnumdayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.dayOfWeek[] | ListEnumdayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.dayOfWeek[] | ListEnumdayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumdayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.dayOfWeek
+  export type EnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumdayOfWeekFilter<$PrismaModel>
-    _max?: NestedEnumdayOfWeekFilter<$PrismaModel>
+    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
+    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -10411,8 +10411,8 @@ export namespace Prisma {
     connect?: DealershipInfoWhereUniqueInput
   }
 
-  export type EnumdayOfWeekFieldUpdateOperationsInput = {
-    set?: $Enums.dayOfWeek
+  export type EnumDayOfWeekFieldUpdateOperationsInput = {
+    set?: $Enums.DayOfWeek
   }
 
   export type DealershipInfoUpdateOneRequiredWithoutWorkingHoursNestedInput = {
@@ -10720,21 +10720,21 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type NestedEnumdayOfWeekFilter<$PrismaModel = never> = {
-    equals?: $Enums.dayOfWeek | EnumdayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.dayOfWeek[] | ListEnumdayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.dayOfWeek[] | ListEnumdayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumdayOfWeekFilter<$PrismaModel> | $Enums.dayOfWeek
+  export type NestedEnumDayOfWeekFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
   }
 
-  export type NestedEnumdayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.dayOfWeek | EnumdayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.dayOfWeek[] | ListEnumdayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.dayOfWeek[] | ListEnumdayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumdayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.dayOfWeek
+  export type NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumdayOfWeekFilter<$PrismaModel>
-    _max?: NestedEnumdayOfWeekFilter<$PrismaModel>
+    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
+    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
   }
 
   export type NestedEnumBookingStatusFilter<$PrismaModel = never> = {
@@ -10958,7 +10958,7 @@ export namespace Prisma {
 
   export type WorkingHourCreateWithoutDealershipInput = {
     id?: string
-    dayOfWeek: $Enums.dayOfWeek
+    dayOfWeek: $Enums.DayOfWeek
     openTime: string
     closeTime: string
     isOpen?: boolean
@@ -10968,7 +10968,7 @@ export namespace Prisma {
 
   export type WorkingHourUncheckedCreateWithoutDealershipInput = {
     id?: string
-    dayOfWeek: $Enums.dayOfWeek
+    dayOfWeek: $Enums.DayOfWeek
     openTime: string
     closeTime: string
     isOpen?: boolean
@@ -11008,7 +11008,7 @@ export namespace Prisma {
     NOT?: WorkingHourScalarWhereInput | WorkingHourScalarWhereInput[]
     id?: StringFilter<"WorkingHour"> | string
     dealershipId?: StringFilter<"WorkingHour"> | string
-    dayOfWeek?: EnumdayOfWeekFilter<"WorkingHour"> | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFilter<"WorkingHour"> | $Enums.DayOfWeek
     openTime?: StringFilter<"WorkingHour"> | string
     closeTime?: StringFilter<"WorkingHour"> | string
     isOpen?: BoolFilter<"WorkingHour"> | boolean
@@ -11554,7 +11554,7 @@ export namespace Prisma {
 
   export type WorkingHourCreateManyDealershipInput = {
     id?: string
-    dayOfWeek: $Enums.dayOfWeek
+    dayOfWeek: $Enums.DayOfWeek
     openTime: string
     closeTime: string
     isOpen?: boolean
@@ -11564,7 +11564,7 @@ export namespace Prisma {
 
   export type WorkingHourUpdateWithoutDealershipInput = {
     id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: EnumdayOfWeekFieldUpdateOperationsInput | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
     openTime?: StringFieldUpdateOperationsInput | string
     closeTime?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -11574,7 +11574,7 @@ export namespace Prisma {
 
   export type WorkingHourUncheckedUpdateWithoutDealershipInput = {
     id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: EnumdayOfWeekFieldUpdateOperationsInput | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
     openTime?: StringFieldUpdateOperationsInput | string
     closeTime?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -11584,7 +11584,7 @@ export namespace Prisma {
 
   export type WorkingHourUncheckedUpdateManyWithoutDealershipInput = {
     id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: EnumdayOfWeekFieldUpdateOperationsInput | $Enums.dayOfWeek
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
     openTime?: StringFieldUpdateOperationsInput | string
     closeTime?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
