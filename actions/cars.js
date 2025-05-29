@@ -1,7 +1,7 @@
 "use server";
 
 import { bodyTypes } from "@/lib/data";
-import { serializeCarData, serializeCarData } from "@/lib/helper";
+import { serializeCarData } from "@/lib/helper";
 import { db } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase";
 import { auth } from "@clerk/nextjs/server";
@@ -234,7 +234,7 @@ export async function addCar({ carData, images }) {
     if (!user) throw new Error("User not found!");
 
     // Create a unique folder name for this car's image
-    const carId = uuid();
+    const carId = uuidv4();
     const folderPath = `cars/${carId}`;
 
     // Initialize Supabase client for server-side operations
@@ -360,7 +360,7 @@ export async function addCar({ carData, images }) {
 //   }
 // }
 
-export async function getUsers(search = "") {
+export async function getCars(search = "") {
   try {
     // Build where conditions
     let where = {};
@@ -473,7 +473,7 @@ export async function deleteCar(id) {
     if (!userId) throw new Error("Unauthorized");
 
     // First, fetch the car to get its images
-    const car = await db.car.fingUnique({
+    const car = await db.car.findUnique({
       where: { id },
       select: { images: true },
     });
@@ -495,38 +495,55 @@ export async function deleteCar(id) {
       const cookieStore = await cookies();
       const supabase = createClient(cookieStore);
 
-      // Extract file paths from images URLs
-      const filePaths = car.images
-        .map((imageUrl) => {
-          try {
-            const url = new URL(imageUrl);
-            // Extract the path after /car-images/
-            const pathMatch = url.pathname.match(/\/car-images\/(cars\/[^/]+\/[^/]+)$/);
-            if (pathMatch) {
-              return pathMatch[1]; // This will return the full path like "cars/uuid/filename"
-            }
-            return null;
-          } catch (e) {
-            console.error("Error parsing URL:", imageUrl, e);
-            return null;
+      // Get the folder path from the first image URL
+      if (car.images.length > 0) {
+        const firstImageUrl = car.images[0];
+        const url = new URL(firstImageUrl);
+        const pathMatch = url.pathname.match(/\/car-images\/(cars\/[^/]+)/);
+        
+        if (pathMatch) {
+          const folderPath = pathMatch[1]; // This will be "cars/uuid"
+          console.log("Found folder path:", folderPath);
+
+          // First list all files in the folder
+          const { data: files, error: listError } = await supabase.storage
+            .from("car-images")
+            .list(folderPath);
+
+          if (listError) {
+            console.error("Error listing files:", listError);
+            throw new Error(`Failed to list files: ${listError.message}`);
           }
-        })
-        .filter(Boolean);
 
-      // Delete files from storage if paths were extracted
-      if (filePaths.length > 0) {
-        const { error } = await supabase.storage
-          .from("car-images")
-          .remove(filePaths);
+          if (files && files.length > 0) {
+            console.log("Files found in folder:", files);
 
-        if (error) {
-          console.error("Error deleting images:", error);
-          // We continue even if image deletion fails
+            // Create array of full paths to delete
+            const pathsToDelete = files.map(file => `${folderPath}/${file.name}`);
+            console.log("Paths to delete:", pathsToDelete);
+
+            // Delete all files
+            const { error: deleteError } = await supabase.storage
+              .from("car-images")
+              .remove(pathsToDelete);
+
+            if (deleteError) {
+              console.error("Error deleting files:", deleteError);
+              console.error("Error details:", {
+                message: deleteError.message,
+                statusCode: deleteError.statusCode,
+                name: deleteError.name
+              });
+            } else {
+              console.log("Successfully deleted all files in folder");
+            }
+          } else {
+            console.log("No files found in folder");
+          }
         }
       }
     } catch (storageError) {
       console.error("Error with storage operations:", storageError);
-      // Continue with the function even if storage operations fail
     }
 
     revalidatePath("/admin/cars");
