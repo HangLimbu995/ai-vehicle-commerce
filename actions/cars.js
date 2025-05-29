@@ -498,11 +498,21 @@ export async function deleteCar(id) {
       // Extract file paths from images URLs
       const filePaths = car.images
         .map((imageUrl) => {
-          const url = new URL(imageUrl);
-          const pathMatch = url.pathname.match(/\/car-images\/(.*)/);
-          return pathMatch ? pathMatch[1] : null;
+          try {
+            const url = new URL(imageUrl);
+            // Extract the path after /car-images/
+            const pathMatch = url.pathname.match(/\/car-images\/(cars\/[^/]+\/[^/]+)$/);
+            if (pathMatch) {
+              return pathMatch[1]; // This will return the full path like "cars/uuid/filename"
+            }
+            return null;
+          } catch (e) {
+            console.error("Error parsing URL:", imageUrl, e);
+            return null;
+          }
         })
         .filter(Boolean);
+
       // Delete files from storage if paths were extracted
       if (filePaths.length > 0) {
         const { error } = await supabase.storage
