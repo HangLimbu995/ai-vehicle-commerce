@@ -2,7 +2,7 @@
 
 import { dayOfWeek } from "@/lib/generated/prisma";
 import { db } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
 // Get dealership info with working hours
@@ -360,12 +360,25 @@ export async function getUsers() {
 
 export async function updateUserRole(userId, role) {
   try {
-    const {userId} = await auth()
-    if(!userId) throw new Error("Unauthorized")
+    const { adminId } = await auth();
+    if (!adminId) throw new Error("Unauthorized");
 
-      const 
+    const adminUser = await db.user.findUnique({
+      where: { clerkUserId: adminId },
+    });
+
+    if (!adminUser || adminUser.role !== "ADMIN")
+      throw new Error("Unauthorized: Admin access requried");
+
+    await db.user.update({
+      where: { id: userId },
+      data: { role },
+    });
+
+    revalidatePath("/admin/settings");
+
+    return { success: true };
   } catch (error) {
-    
+    throw new Error("Error updating user role" + error.message);
   }
-  
 }
