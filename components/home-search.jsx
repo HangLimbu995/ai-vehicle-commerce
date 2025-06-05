@@ -178,9 +178,13 @@ const HomeSearch = () => {
               <Button
                 type="submit"
                 className="w-full mt-2"
-                disabled={isUploading}
+                disabled={isUploading ?? isProcessing}
               >
-                {isUploading ? "Uploading..." : "Search with this Image"}
+                {isUploading
+                  ? "Uploading..."
+                  : isProcessing
+                  ? "Analyzing Image..."
+                  : "Search with this Image"}
               </Button>
             )}
           </form>

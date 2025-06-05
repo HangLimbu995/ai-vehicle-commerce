@@ -23,9 +23,10 @@ export async function getFeaturedCars(limit = 3) {
   }
 }
 
+// Function to convert File to base64
 async function fileToBase64(file) {
   const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(file);
+  const buffer = Buffer.from(bytes);
   return buffer.toString("base64");
 }
 
@@ -59,7 +60,7 @@ export async function processImageSearch(file) {
       throw new Error("Gemini API key is not configured");
     }
 
-    const genAI = await GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const base64Image = await fileToBase64(file);
@@ -93,7 +94,7 @@ export async function processImageSearch(file) {
 
     const result = await model.generateContent([prompt, imagePart]);
     const response = result.response;
-    const text = response.text;
+    const text = response.text();
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
 
     try {

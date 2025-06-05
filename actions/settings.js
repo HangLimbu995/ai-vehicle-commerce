@@ -105,7 +105,7 @@ export async function getDealershipInfo() {
     if (!userId) throw new Error("Unauthorized");
 
     // Get the dealership record
-    const dealership = db.dealershipInfo.findFirst({
+    let dealership = db.dealershipInfo.findFirst({
       include: {
         workingHours: {
           orderBy: { dayOfWeek: "asc" },
