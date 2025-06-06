@@ -1,4 +1,5 @@
 import { db } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/server";
 
 export async function getCarFilters() {
   try {
@@ -18,11 +19,11 @@ export async function getCarFilters() {
     });
 
     //   Get unique fule types
-    const fuleTypes = await db.car.findMany({
+    const fuelTypes = await db.car.findMany({
       where: { status: "AVAILABLE" },
-      select: { fuleType: true },
-      distinct: ["fuleType"],
-      orderBy: { fuleType: "asc" },
+      select: { fuelType: true },
+      distinct: ["fuelType"],
+      orderBy: { fuelType: "asc" },
     });
 
     //   Get unique transmissions
@@ -45,7 +46,7 @@ export async function getCarFilters() {
       data: {
         makes: makes.map((item) => item.make),
         bodyTypes: bodyTypes.map((item) => item.bodyType),
-        fuleTypes: fuleTypes.map((item) => item.fuleType),
+        fuelTypes: fuelTypes.map((item) => item.fuleType),
         transmissions: transmissions.map((item) => item.transmission),
         priceRange: {
           min: priceAggregations._min.price
@@ -57,5 +58,94 @@ export async function getCarFilters() {
         },
       },
     };
+  } catch (error) {
+    throw new Error("error fetching car filters:" + error.message);
+  }
+}
+
+export async function getCars(
+  search = "",
+  make = "",
+  bodyType = "",
+  fuelType = "",
+  transmission = "",
+  minPrice = "",
+  maxPrice = Number.MAX_SAFE_INTEGER,
+  sortBy = "newest", // Options: newest, priceAsc, priceDesc
+  page = 1,
+  limit = 6
+) {
+  try {
+    const { userId } = await auth();
+    let dbUser = null;
+
+    if (userId) {
+      const user = await db.user.findUnique({
+        where: { clerkUserId: userId },
+      });
+    }
+
+    let where = {
+      status: "AVAILABLE",
+    };
+
+    if (search) {
+      where.OR = [
+        { make: { contains: search, mode: "insensitive" } },
+        { model: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    if (make) where.make = { equals: make, mode: "insensitive" };
+    if (bodyType) where.make = { equals: bodyType, mode: "insensitive" };
+    if (fuelType) where.fuelType = { equals: fuelType, mode: "insensitive" };
+    if (transmission)
+      where.fuleType = { equals: transmission, mode: "insensitive" };
+
+    where.price = {
+      gte: parseFloat(minPrice) || 0,
+    };
+
+    if (maxPrice && maxPrice < Number.MAX_SAFE_INTEGER) {
+      where.price.lte = parseFloat(maxPrice);
+    }
+
+    const skip = (page - 1) * limit;
+
+    // Determine sort order
+    let orderBy = {};
+    switch (sortBy) {
+      case "priceAsc":
+        orderBy = { price: "asc" };
+        break;
+      case "priceDesc":
+        orderBy = { price: "desc" };
+        break;
+      case "newest":
+      default:
+        orderBy = { createdAt: "desc" };
+        break;
+    }
+
+    const totalCars = await db.car.count({ where });
+
+    // Execute the main query
+    const cars = await db.car.findMany({
+      where,
+      take: limit,
+      skip,
+      orderBy,
+    });
+
+    let wishlisted = new Set();
+    if (dbUser) {
+      const savedCars = await db.savedCars.findMany({
+        where: { userId: dbUser.id },
+        select: { carId: true },
+      });
+
+      wishlisted = new Set(savedCars.map((saved) => saved.carId));
+    }
   } catch (error) {}
 }
