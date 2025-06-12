@@ -69,11 +69,13 @@ const CarFilters = ({ filters }) => {
     currentSortBy,
   ]);
 
+  // Current filters object for the controls component
   const currentFilters = {
     make,
     bodyType,
     fuelType,
     transmission,
+    priceRange,
     priceRangeMin: filters.priceRange.min,
     priceRangeMax: filters.priceRange.max,
   };
@@ -88,6 +90,7 @@ const CarFilters = ({ filters }) => {
     sortBy,
   ].filter(Boolean).length;
 
+  // Handle filter changes
   const handleFilterChange = (filterName, value) => {
     switch (filterName) {
       case "make":
@@ -189,7 +192,7 @@ const CarFilters = ({ filters }) => {
                 <CarFilterControls
                   filters={filters}
                   currentFilters={currentFilters}
-                  onFilterChange={handleFilterChange()}
+                  onFilterChange={handleFilterChange}
                   onClearFilter={handleClearFilter}
                 />
               </div>
@@ -257,11 +260,11 @@ const CarFilters = ({ filters }) => {
             )}
           </div>
 
-          <div className="py-6">
+          <div className="p-4">
             <CarFilterControls
               filters={filters}
               currentFilters={currentFilters}
-              onFilterChange={handleFilterChange()}
+              onFilterChange={handleFilterChange}
               onClearFilter={handleClearFilter}
             />
           </div>
