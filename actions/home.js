@@ -36,7 +36,7 @@ export async function processImageSearch(file) {
     const req = await request();
 
     const descision = await aj.protect(req, {
-      requested: 1,
+      requested: 1, // Specify how many tokens to consume
     });
 
     if (descision.isDenied()) {
@@ -74,23 +74,22 @@ export async function processImageSearch(file) {
 
     // Define the prompt for car detail extraction
     const prompt = `
-     Analyze this car image and extract the following information for a search query:
-     1. Make (manufacturer)
-     2. Body type (SUV, Sedan, Hatchback,convertible, coupe, wagon, pickup etc.)
-    3. Color
+      Analyze this car image and extract the following information for a search query:
+      1. Make (manufacturer)
+      2. Body type (SUV, Sedan, Hatchback, etc.)
+      3. Color
 
-     Format your response as a clean JSON object with these fields:
-     {
-       "make": "",
-       "bodyType": "",
-       "color": "",
+      Format your response as a clean JSON object with these fields:
+      {
+        "make": "",
+        "bodyType": "",
+        "color": "",
+        "confidence": 0.0
+      }
 
-       "confidence": 0.0,
-     }
-
-     For confidence, provide a value between 0 and 1 representing how confident you are in your overall identification.
-     Only respond with the JSON object, nothing else.
-   `;
+      For confidence, provide a value between 0 and 1 representing how confident you are in your overall identification.
+      Only respond with the JSON object, nothing else.
+    `;
 
     const result = await model.generateContent([prompt, imagePart]);
     const response = result.response;
@@ -99,7 +98,6 @@ export async function processImageSearch(file) {
 
     try {
       const carDetails = await JSON.parse(cleanedText);
-
       return {
         success: true,
         data: carDetails,

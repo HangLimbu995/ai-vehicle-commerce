@@ -1,3 +1,5 @@
+"use server";
+
 import { serializeCarData } from "@/lib/helper";
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
@@ -20,7 +22,7 @@ export async function getCarFilters() {
       orderBy: { bodyType: "asc" },
     });
 
-    //   Get unique fule types
+    // Get unique fuel types
     const fuelTypes = await db.car.findMany({
       where: { status: "AVAILABLE" },
       select: { fuelType: true },
@@ -48,7 +50,7 @@ export async function getCarFilters() {
       data: {
         makes: makes.map((item) => item.make),
         bodyTypes: bodyTypes.map((item) => item.bodyType),
-        fuelTypes: fuelTypes.map((item) => item.fuleType),
+        fuelTypes: fuelTypes.map((item) => item.fuelType),
         transmissions: transmissions.map((item) => item.transmission),
         priceRange: {
           min: priceAggregations._min.price
@@ -65,28 +67,30 @@ export async function getCarFilters() {
   }
 }
 
-export async function getCars(
+export async function getCars({
   search = "",
   make = "",
   bodyType = "",
   fuelType = "",
   transmission = "",
-  minPrice = "",
+  minPrice = 0,
   maxPrice = Number.MAX_SAFE_INTEGER,
   sortBy = "newest", // Options: newest, priceAsc, priceDesc
   page = 1,
-  limit = 6
-) {
+  limit = 6,
+}) {
   try {
+    // Get current user if authenticated
     const { userId } = await auth();
     let dbUser = null;
 
     if (userId) {
-      const user = await db.user.findUnique({
+      dbUser = await db.user.findUnique({
         where: { clerkUserId: userId },
       });
     }
 
+    // Build where conditions
     let where = {
       status: "AVAILABLE",
     };
@@ -100,11 +104,12 @@ export async function getCars(
     }
 
     if (make) where.make = { equals: make, mode: "insensitive" };
-    if (bodyType) where.make = { equals: bodyType, mode: "insensitive" };
+    if (bodyType) where.bodyType = { equals: bodyType, mode: "insensitive" };
     if (fuelType) where.fuelType = { equals: fuelType, mode: "insensitive" };
     if (transmission)
-      where.fuleType = { equals: transmission, mode: "insensitive" };
+      where.transmission = { equals: transmission, mode: "insensitive" };
 
+    // Add price range
     where.price = {
       gte: parseFloat(minPrice) || 0,
     };
@@ -113,6 +118,7 @@ export async function getCars(
       where.price.lte = parseFloat(maxPrice);
     }
 
+    // Calculate pagination
     const skip = (page - 1) * limit;
 
     // Determine sort order
@@ -130,6 +136,7 @@ export async function getCars(
         break;
     }
 
+    // Get total count for pagination
     const totalCars = await db.car.count({ where });
 
     // Execute the main query
@@ -140,9 +147,10 @@ export async function getCars(
       orderBy,
     });
 
+    // If we have a user, check which cars are wishlisted
     let wishlisted = new Set();
     if (dbUser) {
-      const savedCars = await db.savedCars.findMany({
+      const savedCars = await db.userSavedCar.findMany({
         where: { userId: dbUser.id },
         select: { carId: true },
       });
@@ -150,7 +158,7 @@ export async function getCars(
       wishlisted = new Set(savedCars.map((saved) => saved.carId));
     }
 
-    //  Serialize and check wishlist status
+    // Serialize and check wishlist status
     const serializedCars = cars.map((car) =>
       serializeCarData(car, wishlisted.has(car.id))
     );
@@ -158,7 +166,7 @@ export async function getCars(
     return {
       success: true,
       data: serializedCars,
-      Pagination: {
+      pagination: {
         total: totalCars,
         page,
         limit,
@@ -166,7 +174,7 @@ export async function getCars(
       },
     };
   } catch (error) {
-    throw new Error("Error fetching cars: " + error.message);
+    throw new Error("Error fetching cars:" + error.message);
   }
 }
 

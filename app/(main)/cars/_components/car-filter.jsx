@@ -112,7 +112,7 @@ const CarFilters = ({ filters }) => {
   };
 
   const handleClearFilter = (filterName) => {
-    handleClearFilter(filterName, "");
+    handleFilterChange(filterName, "");
   };
 
   const clearFilters = () => {

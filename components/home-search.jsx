@@ -59,7 +59,7 @@ const HomeSearch = () => {
       const params = new URLSearchParams();
       if (processResult.data.make) params.set("make", processResult.data.make);
       if (processResult.data.bodyType)
-        params.set("bodyType", processResult.data.color);
+        params.set("bodyType", processResult.data.bodyType);
 
       router.push(`/cars?${params.toString()}`);
     }
