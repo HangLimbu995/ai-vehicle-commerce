@@ -5,8 +5,12 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
+/**
+ * Get simplified filters for the car marketplace
+ */
 export async function getCarFilters() {
   try {
+    // Get unique makes
     const makes = await db.car.findMany({
       where: { status: "AVAILABLE" },
       select: { make: true },
@@ -14,7 +18,7 @@ export async function getCarFilters() {
       orderBy: { make: "asc" },
     });
 
-    //   Get unique body types
+    // Get unique body types
     const bodyTypes = await db.car.findMany({
       where: { status: "AVAILABLE" },
       select: { bodyType: true },
@@ -30,7 +34,7 @@ export async function getCarFilters() {
       orderBy: { fuelType: "asc" },
     });
 
-    //   Get unique transmissions
+    // Get unique transmissions
     const transmissions = await db.car.findMany({
       where: { status: "AVAILABLE" },
       select: { transmission: true },
@@ -38,7 +42,7 @@ export async function getCarFilters() {
       orderBy: { transmission: "asc" },
     });
 
-    //   Get min and max prices using Prisma aggregations
+    // Get min and max prices using Prisma aggregations
     const priceAggregations = await db.car.aggregate({
       where: { status: "AVAILABLE" },
       _min: { price: true },
@@ -63,9 +67,10 @@ export async function getCarFilters() {
       },
     };
   } catch (error) {
-    throw new Error("error fetching car filters:" + error.message);
+    throw new Error("Error fetching car filters:" + error.message);
   }
 }
+
 
 export async function getCars({
   search = "",

@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/sheet";
 import { Filter, Sliders, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import CarFilterControls from "./filter-controls";
+import React, { useCallback, useEffect, useState } from "react";
+import { CarFilterControls } from "./filter-controls";
 import {
   Select,
   SelectContent,
@@ -115,7 +115,8 @@ const CarFilters = ({ filters }) => {
     handleFilterChange(filterName, "");
   };
 
-  const clearFilters = () => {
+   // Clear all filters
+   const clearFilters = () => {
     setMake("");
     setBodyType("");
     setFuelType("");
@@ -123,6 +124,7 @@ const CarFilters = ({ filters }) => {
     setPriceRange([filters.priceRange.min, filters.priceRange.max]);
     setSortBy("newest");
 
+    // Keep search term if exists
     const params = new URLSearchParams();
     const search = searchParams.get("search");
     if (search) params.set("search", search);
@@ -134,9 +136,10 @@ const CarFilters = ({ filters }) => {
     setIsSheetOpen(false);
   };
 
-  const applyFilters = () => {
+   // Update URL when filters change
+   const applyFilters = useCallback(() => {
     const params = new URLSearchParams();
-    console.log("sort by are", sortBy);
+
     if (make) params.set("make", make);
     if (bodyType) params.set("bodyType", bodyType);
     if (fuelType) params.set("fuelType", fuelType);
@@ -147,9 +150,9 @@ const CarFilters = ({ filters }) => {
       params.set("maxPrice", priceRange[1].toString());
     if (sortBy !== "newest") params.set("sortBy", sortBy);
 
+    // Preserve search and page params if they exist
     const search = searchParams.get("search");
     const page = searchParams.get("page");
-
     if (search) params.set("search", search);
     if (page && page !== "1") params.set("page", page);
 
@@ -158,7 +161,19 @@ const CarFilters = ({ filters }) => {
 
     router.push(url);
     setIsSheetOpen(false);
-  };
+  }, [
+    make,
+    bodyType,
+    fuelType,
+    transmission,
+    priceRange,
+    sortBy,
+    pathname,
+    searchParams,
+    filters.priceRange.min,
+    filters.priceRange.max,
+  ]);
+
 
   useEffect(() => {
     applyFilters();

@@ -1,11 +1,10 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Slider } from "@/components/ui/slider";
 import { Check, X } from "lucide-react";
-import React from "react";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
 
-const CarFilterControls = ({
+export const CarFilterControls = ({
   filters,
   currentFilters,
   onFilterChange,
@@ -49,6 +48,7 @@ const CarFilterControls = ({
 
   return (
     <div className="space-y-6">
+      {/* Price Range */}
       <div className="space-y-4">
         <h3 className="font-medium">Price Range</h3>
         <div className="px-2">
@@ -66,20 +66,22 @@ const CarFilterControls = ({
         </div>
       </div>
 
+      {/* Filter Categories */}
       {filterSections.map((section) => (
         <div key={section.id} className="space-y-3">
           <h4 className="text-sm font-medium flex justify-between">
             <span>{section.title}</span>
             {section.currentValue && (
               <button
-                className="text-xs text-gray-600 flex items-center cursor-pointer"
+                className="text-xs text-gray-600 flex items-center"
                 onClick={() => onClearFilter(section.id)}
               >
-                <X className="mr-1 h-3 w-3" /> Clear
+                <X className="mr-1 h-3 w-3" />
+                Clear
               </button>
             )}
           </h4>
-          <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto pr-1">
+          <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
             {section.options.map((option) => (
               <Badge
                 key={option.value}
@@ -102,7 +104,6 @@ const CarFilterControls = ({
                   <Check className="ml-1 h-3 w-3 inline" />
                 )}
               </Badge>
-              // <Badge key={option.value} >hello</Badge>
             ))}
           </div>
         </div>
@@ -110,5 +111,3 @@ const CarFilterControls = ({
     </div>
   );
 };
-
-export default CarFilterControls;
