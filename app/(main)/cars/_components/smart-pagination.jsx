@@ -23,7 +23,7 @@ export function SmartPagination({ currentPage, totalPages, onPageChange }) {
   const renderPageButtons = () => {
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => (
-        <PaginationItem key={i}>
+        <PaginationItem key={i} className="cursor-pointer">
           <PaginationLink
             isActive={currentPage === i + 1}
             onClick={() => onPageChange(i + 1)}
@@ -38,7 +38,7 @@ export function SmartPagination({ currentPage, totalPages, onPageChange }) {
 
     if (currentPage !== 1) {
       items.push(
-        <PaginationItem key="first">
+        <PaginationItem key="first" className="cursor-pointer">
           <PaginationLink onClick={() => onPageChange(1)}>1</PaginationLink>
         </PaginationItem>
       );
@@ -46,7 +46,7 @@ export function SmartPagination({ currentPage, totalPages, onPageChange }) {
 
     if (currentPage - 2 > 1) {
       items.push(
-        <PaginationItem key="start-ellipsis">
+        <PaginationItem key="start-ellipsis" className="cursor-pointer">
           <PaginationEllipsis />
         </PaginationItem>
       );
@@ -54,7 +54,7 @@ export function SmartPagination({ currentPage, totalPages, onPageChange }) {
 
     if (currentPage - 1 > 1) {
       items.push(
-        <PaginationItem key="prev">
+        <PaginationItem key="prev" className="cursor-pointer">
           <PaginationLink onClick={() => onPageChange(currentPage - 1)}>
             {currentPage - 1}
           </PaginationLink>
@@ -63,14 +63,14 @@ export function SmartPagination({ currentPage, totalPages, onPageChange }) {
     }
 
     items.push(
-      <PaginationItem key="current">
+      <PaginationItem key="current" className="cursor-pointer">
         <PaginationLink isActive>{currentPage}</PaginationLink>
       </PaginationItem>
     );
 
     if (currentPage + 1 < totalPages) {
       items.push(
-        <PaginationItem key="next">
+        <PaginationItem key="next" className="cursor-pointer">
           <PaginationLink onClick={() => onPageChange(currentPage + 1)}>
             {currentPage + 1}
           </PaginationLink>
@@ -80,7 +80,7 @@ export function SmartPagination({ currentPage, totalPages, onPageChange }) {
 
     if (currentPage + 2 < totalPages) {
       items.push(
-        <PaginationItem key="end-ellipsis">
+        <PaginationItem key="end-ellipsis" className="cursor-pointer">
           <PaginationEllipsis />
         </PaginationItem>
       );
@@ -88,7 +88,7 @@ export function SmartPagination({ currentPage, totalPages, onPageChange }) {
 
     if (currentPage !== totalPages) {
       items.push(
-        <PaginationItem key="last">
+        <PaginationItem key="last" className="cursor-pointer">
           <PaginationLink onClick={() => onPageChange(totalPages)}>
             {totalPages}
           </PaginationLink>

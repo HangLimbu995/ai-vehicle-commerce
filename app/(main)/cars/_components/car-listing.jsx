@@ -159,10 +159,11 @@ const CarListings = () => {
           <Pagination>
             <PaginationContent>
               {Array.from({ length: pagination.pages }, (_, i) => (
-                <PaginationItem key={i}>
+                <PaginationItem key={i} >
                   <PaginationLink
                     isActive={currentPage === i + 1}
                     onClick={() => setCurrentPage(i + 1)}
+                    className='cursor-pointer'
                   >
                     {i + 1}
                   </PaginationLink>
