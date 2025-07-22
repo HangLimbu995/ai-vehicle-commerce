@@ -172,12 +172,14 @@ export async function getDashboardData() {
       where: { clerkUserId: userId },
     });
 
-    if (!user || user.role === "ADMIN") {
+
+    if (!user || user.role !== "ADMIN") {
       return {
         success: false,
         error: "Unauthorized",
       };
     }
+
 
     // Fetch all necessary data in a single parallel operation
     const [cars, testDrives] = await Promise.all([
@@ -245,7 +247,7 @@ export async function getDashboardData() {
     return {
       success: true,
       data: {
-        car: {
+        cars: {
           total: totalCars,
           available: availableCars,
           sold: soldCars,
