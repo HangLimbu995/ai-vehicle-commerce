@@ -237,7 +237,7 @@ export async function getDashboardData() {
       .map((td) => td.carId);
 
     const soldCarsAfterTestDrive = cars.filter(
-      (car) => car.status === "SOLD" && completedTestDriveCarIds.include(car.id)
+      (car) => car.status === "SOLD" && completedTestDriveCarIds.includes(car.id)
     ).length;
 
     const conversionRate =
